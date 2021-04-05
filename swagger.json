@@ -1,0 +1,619 @@
+// 20210405180708
+// http://localhost:16000/api-json
+
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Futures",
+    "description": "Futures API description :>",
+    "version": "1.0",
+    "contact": {
+      
+    }
+  },
+  "tags": [
+    
+  ],
+  "servers": [
+    
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "Market": {
+        "type": "object",
+        "properties": {
+          "MARKET": {
+            "type": "string"
+          },
+          "KOREAN_NAME": {
+            "type": "string"
+          },
+          "ENGLISH_NAME": {
+            "type": "string"
+          },
+          "MIN_PRICE": {
+            "type": "number"
+          },
+          "PRICE_SIZE": {
+            "type": "number"
+          },
+          "QTY_SIZE": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "MARKET",
+          "KOREAN_NAME",
+          "ENGLISH_NAME",
+          "MIN_PRICE",
+          "PRICE_SIZE",
+          "QTY_SIZE"
+        ]
+      },
+      "OrderRow": {
+        "type": "object",
+        "properties": {
+          "OC_PRICE": {
+            "type": "number"
+          },
+          "AMOUNT_SUM": {
+            "type": "number"
+          },
+          "TIME": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "OC_PRICE",
+          "AMOUNT_SUM",
+          "TIME"
+        ]
+      },
+      "OrderBook": {
+        "type": "object",
+        "properties": {
+          "MKIDX": {
+            "type": "number"
+          },
+          "B": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderRow"
+            }
+          },
+          "S": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderRow"
+            }
+          }
+        },
+        "required": [
+          "MKIDX",
+          "B",
+          "S"
+        ]
+      },
+      "GetOrderOut": {
+        "type": "object",
+        "properties": {
+          "MARKET": {
+            "type": "string"
+          },
+          "ORDER_ID": {
+            "type": "number"
+          },
+          "SIDE": {
+            "type": "string"
+          },
+          "ORD_TYPE": {
+            "type": "string"
+          },
+          "STATE": {
+            "type": "string"
+          },
+          "PRICE": {
+            "type": "number"
+          },
+          "VOLUME": {
+            "type": "number"
+          },
+          "EXECUTED_VOLUME": {
+            "type": "number"
+          },
+          "REMAINING_VOLUME": {
+            "type": "number"
+          },
+          "TIME": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "MARKET",
+          "ORDER_ID",
+          "SIDE",
+          "ORD_TYPE",
+          "STATE",
+          "PRICE",
+          "VOLUME",
+          "EXECUTED_VOLUME",
+          "REMAINING_VOLUME",
+          "TIME"
+        ]
+      },
+      "PostOrderIn": {
+        "type": "object",
+        "properties": {
+          "MARKET": {
+            "type": "string",
+            "example": "KRW-USDT"
+          },
+          "TYPE": {
+            "type": "string",
+            "example": "B"
+          },
+          "CALL_TYPE": {
+            "type": "string",
+            "example": "N"
+          },
+          "PRICE": {
+            "type": "string",
+            "example": "1000"
+          },
+          "AMOUNT": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": [
+          "MARKET",
+          "TYPE",
+          "CALL_TYPE",
+          "PRICE",
+          "AMOUNT"
+        ]
+      },
+      "DeleteOrderIn": {
+        "type": "object",
+        "properties": {
+          "ORDER_ID": {
+            "type": "number",
+            "example": 44436915
+          }
+        },
+        "required": [
+          "ORDER_ID"
+        ]
+      },
+      "tick": {
+        "type": "object",
+        "properties": {
+          "MARKET": {
+            "type": "string"
+          },
+          "OPENING_PRICE": {
+            "type": "number"
+          },
+          "CLOSING_PRICE": {
+            "type": "number"
+          },
+          "LOW_PRICE": {
+            "type": "number"
+          },
+          "HIGH_PRICE": {
+            "type": "number"
+          },
+          "LAST_PRICE": {
+            "type": "number"
+          },
+          "ACC_TRADE_VOLUME": {
+            "type": "number"
+          },
+          "ACC_TRADE_PRICE": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "MARKET",
+          "OPENING_PRICE",
+          "CLOSING_PRICE",
+          "LOW_PRICE",
+          "HIGH_PRICE",
+          "LAST_PRICE",
+          "ACC_TRADE_VOLUME",
+          "ACC_TRADE_PRICE"
+        ]
+      },
+      "wallet": {
+        "type": "object",
+        "properties": {
+          "CURRENCY": {
+            "type": "string"
+          },
+          "BALANCE": {
+            "type": "number"
+          },
+          "LOCKED": {
+            "type": "number"
+          },
+          "ADDRESS": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "CURRENCY",
+          "BALANCE",
+          "LOCKED",
+          "ADDRESS"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/v1/auth/login": {
+      "get": {
+        "operationId": "AuthController_login",
+        "parameters": [
+          
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/auth"
+        ]
+      }
+    },
+    "/v1/markets": {
+      "get": {
+        "operationId": "MarketsController_getEnableMarkets",
+        "summary": "Get current list of markets available for trading",
+        "parameters": [
+          
+        ],
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Market"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/markets"
+        ]
+      }
+    },
+    "/v1/orderbook": {
+      "get": {
+        "operationId": "OrderbookController_getOrderbook",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "MARKET",
+            "required": true,
+            "in": "query",
+            "example": "KRW-BTC",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderBook"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/orderbook"
+        ]
+      }
+    },
+    "/v1/orders": {
+      "get": {
+        "operationId": "OrdersController_getMyOrders",
+        "summary": "Get all account orders",
+        "parameters": [
+          {
+            "name": "MARKET",
+            "required": true,
+            "in": "query",
+            "example": "KRW-BTC",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "LIMIT",
+            "required": false,
+            "in": "query",
+            "example": 10,
+            "description": "Default 10; Max 100;",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ORDER_ID",
+            "required": false,
+            "in": "query",
+            "example": 0,
+            "description": "ORDER_ID to fetch from, Default gets most recent order",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetOrderOut"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/orders"
+        ],
+        "security": [
+          {
+            "bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "post": {
+        "operationId": "OrdersController_postOrder",
+        "summary": "Send in a new order",
+        "parameters": [
+          
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "default request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostOrderIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "default response"
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/orders"
+        ],
+        "security": [
+          {
+            "bearer": [
+              
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "OrdersController_deleteOrder",
+        "summary": "Cancel an active order",
+        "parameters": [
+          
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "default request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteOrderIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "default response"
+          }
+        },
+        "tags": [
+          "v1/orders"
+        ],
+        "security": [
+          {
+            "bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/ticker/price": {
+      "get": {
+        "operationId": "TickerController_getCurrentPrice",
+        "summary": "Latest price for a symbol or symbols",
+        "parameters": [
+          {
+            "name": "MARKET",
+            "required": true,
+            "in": "query",
+            "example": "KRW-BTC",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/tick"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/ticker"
+        ]
+      }
+    },
+    "/v1/wallets": {
+      "get": {
+        "operationId": "WalletsController_getMyWallets",
+        "summary": "Get current account balances",
+        "parameters": [
+          
+        ],
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/wallet"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/wallets"
+        ],
+        "security": [
+          {
+            "bearer": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/candles": {
+      "get": {
+        "operationId": "CandlesController_getCandles",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "INTERVAL",
+            "required": true,
+            "in": "query",
+            "example": "1h",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MARKET",
+            "required": true,
+            "in": "query",
+            "example": "KRW-BTC",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "COUNT",
+            "required": false,
+            "in": "query",
+            "example": 10,
+            "description": "Default 10; Max 100;",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default response"
+          }
+        },
+        "tags": [
+          "v1/candles"
+        ]
+      }
+    },
+    "/v1/candles/price": {
+      "get": {
+        "operationId": "CandlesController_getTickerBySocket",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "MARKET",
+            "required": true,
+            "in": "query",
+            "example": "KRW-BTC",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default response"
+          }
+        },
+        "tags": [
+          "v1/candles"
+        ]
+      }
+    }
+  }
+}
